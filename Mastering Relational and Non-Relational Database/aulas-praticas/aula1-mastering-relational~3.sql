@@ -1,0 +1,17 @@
+DECLARE
+
+    V_QUANTIDADE PLS_INTEGER;
+
+BEGIN
+    --LOOP
+    
+    FOR TABELA IN (SELECT TABLE_NAME
+                    FROM USER_TABLES) LOOP
+                    
+        EXECUTE IMMEDIATE 'SELECT COUNT(1) INTO FROM V_QUANTIDADE ' ||TABELA.TABLE_NAME;
+        
+        DBMS_OUTPUT.PUT_LINE(TABELA.TABLE_NAME ||' ' || V_QUANTIDADE);
+                    
+    END LOOP;
+
+END;
