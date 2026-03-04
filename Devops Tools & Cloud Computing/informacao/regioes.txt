@@ -1,0 +1,1 @@
+["southafricanorth","chilecentral","spaincentral","canadacentral","brazilsouth"]
