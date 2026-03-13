@@ -1,0 +1,15 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+
+    V_QUANTIDADE PLS_INTEGER := 0;
+
+BEGIN
+
+    SELECT COUNT(1)
+    INTO v_quantidade
+    FROM employees;
+    
+    DBMS_OUTPUT.PUT_LINE(V_QUANTIDADE);
+
+END;

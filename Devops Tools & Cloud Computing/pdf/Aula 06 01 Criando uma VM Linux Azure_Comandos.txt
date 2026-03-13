@@ -1,0 +1,57 @@
+
+Nomenclatura de Recursos - Azure:
+https://learn.microsoft.com/pt-br/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming
+
+--
+
+rg-linux-free
+
+--
+
+vm-linux-free
+
+--
+
+https://distrowatch.com/table.php?distribution=alma
+
+--
+
+Usuário: admlnx
+Senha: Fiap@2tdsvms
+
+--
+
+sub-net-vm-net
+
+
+--
+
+Cliente
+DimDim
+
+--
+
+ssh admlnx@ip-da-vm
+
+Senha:
+Fiap@2tdsvms
+
+
+--
+
+sudo dnf update -y
+sudo dnf install -y git wget curl nano
+
+sudo dnf install -y httpd
+sudo systemctl start httpd
+
+Acesse seu Internet Browser e realize o Teste
+http://ip-da-vm:80
+
+
+--
+
+sudo systemctl stop httpd
+
+sudo dnf remove -y httpd
+

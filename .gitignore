@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+vm/
+**/vm/
+*.vdi
+*.vbox
+*.vbox-prev
+**/Logs/

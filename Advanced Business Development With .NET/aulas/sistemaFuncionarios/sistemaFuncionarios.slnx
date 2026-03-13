@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../metodoPagamento/metodoPagamento.csproj" />
+  <Project Path="sistemaFuncionarios/sistemaFuncionarios.csproj" />
+</Solution>
