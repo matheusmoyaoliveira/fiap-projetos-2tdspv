@@ -1,0 +1,23 @@
+--*******************************************
+-- Sistema de Combate de "Turing's Legacy"
+--*******************************************
+
+Vocês foram contratados como desenvolvedores PL/SQL para otimizar o banco de dados Oracle do novo MMORPG (Massive Multiplayer Online Role-Playing Game) Turing's Legacy. Durante um combate, o servidor precisa calcular duas coisas muito rapidamente sempre que um jogador ataca um monstro:
+1. O Multiplicador de Dano Base, que depende exclusivamente da Classe do personagem.
+2. A Chance de Acerto Crítico, que é um cálculo complexo dependendo de múltiplos fatores ambientais e status do jogador.
+
+Criem dois blocos anônimos em PL/SQL para resolver essas regras de negócio. O Tech Lead exigiu que o código seja o mais limpo e performático possível, utilizando a estrutura de controle correta para cada situação (IF ou CASE).
+
+Regra de Negócio 1: Multiplicador de Dano
+O multiplicador é definido apenas pela classe do jogador:
+- Se for 'Guerreiro', multiplicador = 1.2
+- Se for 'Mago', multiplicador = 1.5
+- Se for 'Ladino', multiplicador = 1.8
+- Se for 'Paladino', multiplicador = 1.1
+- Qualquer outra classe, multiplicador = 1.0
+
+Regra de Negócio 2: Acerto Crítico
+O ataque será crítico (Verdadeiro ou Falso) se qualquer uma das seguintes condições complexas for atendida:
+- A vida do jogador (HP) estiver abaixo de 15% E ele tiver uma poção de fúria ativa no inventário.
+- OU O jogador f	or da classe 'Ladino' E o monstro estiver de costas (is_flanking = TRUE).
+- OU O clima do jogo for 'Chuva' E o jogador estiver usando uma arma do elemento 'Raio'.
