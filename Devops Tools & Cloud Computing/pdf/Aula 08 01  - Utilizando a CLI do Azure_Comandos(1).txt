@@ -86,7 +86,7 @@ az vm open-port --resource-group rg-dimdim-dev --name vm-dimdim-app --port 5000-
 az storage account create \
   --name dimdimstorage$RANDOM \
   --resource-group rg-dimdim-dev \
-  --location eastus \
+  --location canadacentral \
   --sku Standard_LRS \
   --kind StorageV2 \
   --access-tier Hot
@@ -95,7 +95,7 @@ az storage account create \
 -- Slide 29
 
 az monitor metrics list \
-  --resource $(az vm show -g rg-dimdim-dev -n vm-dimdim-app --query id -o tsv) \
+  --resource $(az vm show -g rg-linux-free -n vm-linux-free --query id -o tsv) \
   --metric "Percentage CPU" \
   --aggregation Average \
   --interval PT1M -o table
@@ -103,8 +103,8 @@ az monitor metrics list \
 
 az monitor metrics alert create \
   -n Alert-CPU-High \
-  -g rg-dimdim-dev \
-  --scopes $(az vm show -g rg-dimdim-dev -n vm-dimdim-app --query id -o tsv) \
+  -g rg-linux-free \
+  --scopes $(az vm show -g rg-linux-free -n vm-linux-free --query id -o tsv) \
   --description "CPU acima de 90% por 5min" \
   --condition "avg Percentage CPU > 90"
 
@@ -113,7 +113,7 @@ az monitor metrics alert create \
 -- Slide 30
 
 
-az monitor metrics alert list -g rg-dimdim-dev -o table
+az monitor metrics alert list -g rg-linux-free -o table
 
 
 -- Slide 31
@@ -132,24 +132,29 @@ touch reconhecimento.sh
 Copie e cole:
 
 #!/bin/bash
-# Cabeçalho de boas-vindas
+
+# Cabeçalho de boas-vindas
 echo "*************************************"
 echo "Bem-vindo à Missão DimDim nas Nuvens!"
 echo "*************************************"
 echo ""
-# Verificar se o Azure CLI está instalado e mostrar a versão
+
+# Verificar se o Azure CLI está instalado e mostrar a versão
 echo "Verificando se o Azure CLI está instalado e exibindo a versão..."
 az --version
 echo ""
-# Solicitar que o usuário faça login no Azure
+
+# Solicitar que o usuário faça login no Azure
 echo "Por favor, faça seu login no Azure:"
 az login
 echo ""
-# Exibir as assinaturas disponíveis para a conta logada, no formato tabela
+
+# Exibir as assinaturas disponíveis para a conta logada, no formato tabela
 echo "Obtendo a lista de suas assinaturas Azure:"
 az account list --output table
 echo ""
-# Mostrar as regiões disponíveis para uso no Azure, também em formato tabela
+
+# Mostrar as regiões disponíveis para uso no Azure, também em formato tabela
 echo "Listando as regiões disponíveis no Azure:"
 az account list-locations --output table
 echo ""
