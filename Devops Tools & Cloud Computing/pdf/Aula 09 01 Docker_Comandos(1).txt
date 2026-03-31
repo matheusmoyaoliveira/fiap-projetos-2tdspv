@@ -1,0 +1,293 @@
+
+-- Slide 5
+
+https://linuxways.net/centos/what-is-the-difference-between-lxc-lxd-and-docker-containers/
+
+
+
+-- Slide 22
+
+https://docs.docker.com
+
+https://github.com/docker
+
+
+
+-- Slide 23
+https://hub.docker.com
+
+
+
+-- Slide 29
+https://hub.docker.com
+
+
+
+-- Slide 31
+https://docs.docker.com/engine/reference/commandline/pull/
+
+
+
+-- Slide 34
+
+docker pull ubuntu
+
+docker pull ubuntu:16.04
+
+
+
+-- Slide 36
+
+docker image ls
+
+ou antigo: docker images
+
+
+
+-- Slide 37
+
+docker container run ubuntu
+
+ou antigo: docker run ubuntu
+
+
+-- Slide 38
+
+docker container run -it ubuntu /bin/bash
+
+
+-- Slide 39
+
+docker container run -it alpine /bin/sh
+
+
+-- Slide 41
+
+docker image ls
+
+docker container ls
+
+docker container ls -a
+
+
+-- Slide 50
+
+git clone https://github.com/profjoaomenk/mysql-dimdim.git
+
+
+
+-- Slide 51
+
+docker pull mysql:8.0
+
+docker volume create mysql-dimdim-data
+
+cd mysql-dimdim
+
+docker run --name mysql-dimdim -d \
+-e MYSQL_ROOT_PASSWORD=senha-dimdim \
+-e MYSQL_DATABASE=db-dimdim \
+-e MYSQL_USER=user-dimdim \
+-e MYSQL_PASSWORD=senha-dimdim \
+-p 3306:3306 \
+-v mysql-dimdim-data:/var/lib/mysql \
+-v $(pwd)/docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql mysql:8.0
+
+
+-- Slide 52
+
+docker logs -f mysql-dimdim
+
+docker exec -it mysql-dimdim mysql -uuser-dimdim -p
+
+Senha = senha-dimdim
+
+use db-dimdim;
+
+select * from transacoes;
+
+
+
+-- Slide 53
+
+
+docker volume ls
+
+docker volume inspect mysql-dimdim-data
+
+
+Locais do Volume:
+
+MÃ¡quina Local - Windows
+\\wsl$\docker-desktop-data\data\docker\volumes
+
+MÃ¡quina Virtual - Nuvem
+\\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\volumes
+
+Linux / Mac
+/var/lib/docker/volumes
+
+
+-- Slide 54
+
+docker exec -it mysql-dimdim bash
+
+cd /var/lib/mysql 
+
+echo OlÃ¡ do Container > hello.txt
+
+
+-- Slide 55
+
+echo OlÃ¡ do Host > hello-host.txt
+
+docker exec -it mysql-dimdim bash
+
+cd /var/lib/mysql
+
+ls
+
+
+-- Slide 56
+
+docker container rm -f mysql-dimdim
+
+cd mysql-dimdim
+
+docker run --name mysql-dimdim -d \
+-e MYSQL_ROOT_PASSWORD=senha-dimdim \
+-e MYSQL_DATABASE=db-dimdim \
+-e MYSQL_USER=user-dimdim \
+-e MYSQL_PASSWORD=senha-dimdim \
+-p 3306:3306 \
+-v mysql-dimdim-data:/var/lib/mysql \
+-v $(pwd)/docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql mysql:8.0
+
+docker exec -it mysql-dimdim bash
+
+cd /var/lib/mysql
+
+ls
+
+
+-- Slide 59
+
+cd
+
+git clone https://github.com/profjoaomenk/transacoes-api.git
+
+cd transacoes-api
+
+docker run --name api-dimdim -d \
+-v $(pwd):/app \
+-w /app \
+-p 8080:8080 \
+-e SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/db-dimdim \
+-e SPRING_DATASOURCE_USERNAME=user-dimdim \
+-e SPRING_DATASOURCE_PASSWORD=senha-dimdim \
+maven:3.9-eclipse-temurin-17 \
+bash -c "mvn clean package -DskipTests  && java -jar target/*.jar"
+
+
+-- Slide 60
+
+docker logs -f api-dimdim
+
+docker ps -a
+
+
+-- Slide 63
+
+docker network create dimdim-network
+
+docker rm -f mysql-dimdim
+
+docker rm api-dimdim
+
+
+-- Slide 64
+
+cd mysql-dimdim
+
+docker run --name mysql-dimdim -d \
+-e MYSQL_ROOT_PASSWORD=senha-dimdim \
+-e MYSQL_DATABASE=db-dimdim \
+-e MYSQL_USER=user-dimdim \
+-e MYSQL_PASSWORD=senha-dimdim \
+--network dimdim-network \
+-p 3306:3306 \
+-v mysql-dimdim-data:/var/lib/mysql \
+-v $(pwd)/docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql mysql:8.0
+
+
+docker logs mysql-dimdim
+
+
+-- Slide 65
+
+cd transacoes-api
+
+docker run --name api-dimdim -d \
+-v $(pwd):/app \
+-w /app \
+-p 8080:8080 \
+--network dimdim-network \
+-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-dimdim:3306/db-dimdim \
+-e SPRING_DATASOURCE_USERNAME=user-dimdim \
+-e SPRING_DATASOURCE_PASSWORD=senha-dimdim \
+maven:3.9-eclipse-temurin-17 \
+bash -c "mvn clean package -DskipTests  && java -jar target/*.jar"
+
+
+docker logs -f api-dimdim
+
+
+
+-- Slide 68
+
+curl -X GET http://localhost:8080/api/transacoes
+
+curl -X POST http://localhost:8080/api/transacoes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado",
+    "valor": 150.75
+  }'
+
+
+curl -X PUT http://localhost:8080/api/transacoes/6 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado - ALTERADO",
+    "valor": 150.76,
+    "dataTransacao": "2024-06-18T00:00:00"
+  }'
+
+
+curl -X DELETE http://localhost:8080/api/transacoes/6
+
+
+-- Slide 69
+
+docker container inspect mysql-dimdim
+
+
+-- Slide 70
+
+docker container stop mysql-dimdim
+
+
+-- Slide 71
+
+docker container start mysql-dimdim
+
+
+-- Slide 74
+
+docker rm -f api-dimdim
+docker rm -f mysql-dimdim
+
+
+-- Slide 75
+
+docker system prune -a -f --volumes
