@@ -46,17 +46,17 @@
     <element xsi:type="archimate:CommunicationNetwork" name="NW: LAN" id="id-2094781494ea483995e2ace2bc0926a1"/>
   </folder>
   <folder name="Motivation" id="id-f73336dd1f2f45908866033bf1d2ad7d" type="motivation">
-    <element xsi:type="archimate:Stakeholder" name="STAKEHOLDER: time de UX" id="id-5ee77aa3d0284b21b7b0381d3d7e151b"/>
-    <element xsi:type="archimate:Driver" name="DRIVER: melhor experiencia do usuario" id="id-0acf8a0ea7b34849b6706a60e86533ca"/>
-    <element xsi:type="archimate:Assessment" name="ASSESS: muitos abandonam o cadastro no meio" id="id-aed9ebedd2ff4cfd8ab19c06123689cb"/>
-    <element xsi:type="archimate:Goal" name="GOAL: juntar casais através do gosto musical em comum" id="id-dc672069aafb4522ab1d55ee2e0a3375"/>
-    <element xsi:type="archimate:Requirement" name="REQ: aproveitar as informações que o sistema de cadastro do spotify ja colhe em seu onboarding" id="id-d6583480f501403da7097188f68f1195"/>
+    <element xsi:type="archimate:Stakeholder" name="STAKEHOLDER: " id="id-5ee77aa3d0284b21b7b0381d3d7e151b"/>
+    <element xsi:type="archimate:Driver" name="DRIVER: " id="id-0acf8a0ea7b34849b6706a60e86533ca"/>
+    <element xsi:type="archimate:Assessment" name="ASSESS: " id="id-aed9ebedd2ff4cfd8ab19c06123689cb"/>
+    <element xsi:type="archimate:Goal" name="GOAL: " id="id-dc672069aafb4522ab1d55ee2e0a3375"/>
+    <element xsi:type="archimate:Requirement" name="REQ:" id="id-d6583480f501403da7097188f68f1195"/>
     <element xsi:type="archimate:Requirement" name="REQ: Sintoma do problema deve ser atribuído de acordo com o texto da ligação" id="id-9866312ebaa844b19ecc984de55bf41f"/>
-    <element xsi:type="archimate:Constraint" name="CONST: deve ter integração com a API do Spotify" id="id-4d906f8cd4fb46c59bc0a8e855e880c2"/>
-    <element xsi:type="archimate:Assessment" name="ASSESS: tempo medio do preenchimento do cadastro de usuarios que hoje leva 2 minutos" id="id-8482a2c52b9c40a49a6d5284403f51b9"/>
-    <element xsi:type="archimate:Meaning" name="MEANING: conhecimento em IA" id="id-a3e2506057ec4792be3c235d4225bf81"/>
-    <element xsi:type="archimate:Meaning" name="MEANING: conhecimento cloud" id="id-628cd304cbc54f6eae93742b2f328f23"/>
-    <element xsi:type="archimate:Outcome" name="OUTCOME: aumentar o numero de usuarios" id="id-fcd5ded42b2741d9bf0f51e0ede5c086"/>
+    <element xsi:type="archimate:Constraint" name="CONST: " id="id-4d906f8cd4fb46c59bc0a8e855e880c2"/>
+    <element xsi:type="archimate:Assessment" name="ASSESS: " id="id-8482a2c52b9c40a49a6d5284403f51b9"/>
+    <element xsi:type="archimate:Meaning" name="MEANING: " id="id-a3e2506057ec4792be3c235d4225bf81"/>
+    <element xsi:type="archimate:Meaning" name="MEANING: " id="id-628cd304cbc54f6eae93742b2f328f23"/>
+    <element xsi:type="archimate:Outcome" name="OUTCOME: " id="id-fcd5ded42b2741d9bf0f51e0ede5c086"/>
     <element xsi:type="archimate:Principle" name="Principle" id="id-0ff1f3fe40c54f90a648ded8fb9604d1"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="id-b64231570258497b86891f1d1d304bba" type="implementation_migration"/>
