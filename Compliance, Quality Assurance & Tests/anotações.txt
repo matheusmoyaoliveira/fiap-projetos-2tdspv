@@ -1,0 +1,383 @@
+TOGAF ADM — da Fase E até a Fase H
+ 
+Essas fases do TOGAF ADM representam o momento em que a arquitetura deixa de ser apenas definição e passa a ser planejada, organizada, executada, acompanhada e ajustada ao longo do tempo.
+ 
+Fase E — Planejamento da Implementação
+ 
+A Fase E é o momento em que a organização começa a traçar uma linha seguimento, road map e back log
+ 
+Aqui, o foco principal é entender:
+ 
+qual é a arquitetura atual (AS-IS);
+qual é a arquitetura desejada (TO-BE);
+e como sair do estado atual para chegar ao estado futuro.
+Objetivo da fase
+ 
+Criar um caminho estruturado entre a situação atual e a situação desejada. Os blocos de trabalho são agrupamentos de atividades, processos ou entregas que possuem relação entre si.
+ 
+Esses blocos ajudam a organizar a transição de forma mais prática, porque permitem:
+ 
+ 
+Fase F - Planejamento de implementação 
+Aprofunda o que foi planejado na fase anterior.
+Se na Fase E o foco foi definir o que precisa ser feito, na Fase F o foco passa a ser como organizar isso para ser executado.
+ 
+Objetivo da fase
+ 
+Organizar os blocos de trabalho definidos anteriormente de forma viável para a empresa implementar.
+ 
+Ideia principal
+ 
+Nessa fase, normalmente não se criam novas soluções arquiteturais.
+O objetivo é organizar melhor o que já foi definido, preparando a execução.
+ 
+ 
+Essa fase costuma contar com apoio importante de três perfis de gestão:
+ 
+Gerente de Pessoas: ajuda na alocação de equipes, competências e capacidade do time;
+Gerente de Projeto: organiza prazos, entregas, riscos e acompanhamento do plano;
+Gerente de Produto: ajuda a alinhar prioridades com valor de negócio e necessidades da organização.
+ 
+ 
+Fase G — Governança da Implementação
+ 
+A execução realmente acontece, mas com acompanhamento e controle.
+ 
+Aqui, o foco não é mais planejar, e sim garantir que a implementação siga o que foi definido nas fases anteriores.
+ 
+Objetivo da fase
+ 
+Acompanhar a execução da arquitetura e garantir conformidade com o planejamento aprovado.
+A governança existe para assegurar que o projeto não se desvie do objetivo arquitetural.
+Ou seja, não basta implementar: é preciso implementar do jeito certo, respeitando o planejamento
+ 
+ 
+Fase H — Gestão de Mudanças na Arquitetura
+ 
+A Fase H trata da continuidade da arquitetura após a implementação.
+ 
+Ela parte do princípio de que a organização muda, o mercado muda, as tecnologias mudam e, por isso, a arquitetura também pode precisar de ajustes.
+ 
+Objetivo da fase
+ 
+Analisar se a arquitetura alvo continua relevante e realizar mudanças, melhorias e ajustes quando necessário. A arquitetura alvo não deve ser vista como algo fixo para sempre.
+Ela precisa ser revisada constantemente para verificar se ainda faz sentido para a organização.
+
+AULA 7
+
+Metodologia Scrum — Anotações Organizadas
+ 
+1. Gestão Ágil
+ 
+A gestão ágil trabalha com pequenos ciclos de atividades, executados em curtos períodos de tempo.
+
+A ideia principal é entregar valor de forma contínua, inspecionar o progresso e adaptar o trabalho sempre que necessário.
+ 
+Diferente de um modelo rígido, a abordagem ágil aceita que o projeto pode mudar ao longo do caminho.
+ 
+Comparação entre modelos
+ 
+Escopo fixo = modelo cascata
+ 
+Tudo é definido no início
+
+Existe um conjunto fechado de entregas
+
+O projeto segue exatamente o que foi planejado
+
+Mudanças costumam ser mais difíceis
+ 
+Escopo estimado = modelo ágil
+ 
+O escopo pode ser adaptado
+
+As prioridades mudam conforme a necessidade
+
+O time se ajusta aos recursos disponíveis
+
+O foco é responder bem às mudanças
+ 
+Em outras palavras: no ágil, o escopo é mais volátil e pode ser ajustado para gerar mais valor.
+ 
+2. Conceitos importantes: DoR e DoD
+
+DoR — Definition of Ready
+ 
+É a Definição de Pronto para Começar.
+ 
+Serve para verificar se uma estória ou tarefa está realmente preparada para entrar em desenvolvimento.
+ 
+Uma demanda está em DoR quando, por exemplo:
+ 
+está clara
+
+tem objetivo definido
+
+possui critérios de aceitação
+
+o time entende o que precisa ser feito
+
+não há dúvidas bloqueando o início
+
+DoD — Definition of Done
+ 
+É a Definição de Pronto para Entrega.
+ 
+Define tudo o que precisa estar concluído para que o item seja considerado finalizado e pronto para implantação ou entrega.
+ 
+Exemplos do que pode entrar no DoD:
+ 
+código implementado
+
+testes realizados
+
+revisão concluída
+
+documentação atualizada
+
+aprovado pelo time ou responsável
+ 
+Resumo prático:
+ 
+DoR = pode começar?
+
+DoD = pode entregar?
+
+3. O que é Scrum?
+ 
+O Scrum não é uma metodologia prescritiva, nem uma técnica com passo a passo rígido para criar produtos.
+ 
+O Scrum é um framework simples para gerenciar o desenvolvimento de produtos.
+ 
+Ele se baseia em três pilares:
+ 
+Transparência
+ 
+Todos devem enxergar claramente o andamento do trabalho, o que está sendo feito, o que falta e quais são os impedimentos.
+ 
+Inspeção
+ 
+O progresso precisa ser acompanhado com frequência para identificar erros, desvios ou oportunidades de melhoria.
+ 
+Adaptação
+ 
+Sempre que algo não estiver funcionando bem, o time deve ajustar a forma de trabalhar.
+ 
+Ideia central do Scrum
+ 
+Ter agilidade não significa necessariamente fazer tudo rápido.
+
+Significa ter capacidade de adaptar demandas, prioridades e processos para facilitar o desenvolvimento e melhorar as entregas.
+ 
+4. Valores do Scrum
+ 
+O Scrum possui 5 valores principais:
+ 
+Respeito
+ 
+Os membros do time respeitam uns aos outros, suas habilidades, responsabilidades e opiniões.
+ 
+Abertura
+ 
+Todos devem estar abertos para compartilhar dificuldades, progresso, ideias e feedbacks.
+ 
+Coragem
+ 
+É preciso coragem para tomar decisões, apontar problemas, propor melhorias e enfrentar desafios.
+ 
+Comprometimento
+ 
+O time deve se comprometer com os objetivos da Sprint e com a entrega de valor.
+ 
+Foco
+ 
+Todos devem manter atenção no trabalho da Sprint e nas prioridades definidas.
+ 
+5. Artefatos e planejamento no Scrum
+ 
+Os artefatos ajudam a organizar o trabalho e dar visibilidade ao projeto.
+ 
+1. Product Backlog
+ 
+É a lista geral do projeto.
+ 
+Contém tudo o que pode ser desenvolvido no produto, como:
+ 
+funcionalidades
+
+melhorias
+
+correções
+
+ajustes técnicos
+
+Termos comuns:
+
+PBI (Product Backlog Item): item do backlog do produto
+
+US (User Story / História de Usuário): forma comum de descrever uma necessidade do usuário
+ 
+O Product Backlog é dinâmico, ou seja, pode mudar ao longo do projeto.
+ 
+2. Sprint Backlog
+ 
+É o conjunto de itens selecionados do Product Backlog para serem desenvolvidos durante uma Sprint.
+ 
+Aqui o time planeja:
+ 
+o que será feito
+
+como será feito
+
+quem vai atuar nas atividades
+ 
+Ou seja:
+ 
+Product Backlog = visão geral do projeto
+
+Sprint Backlog = recorte do que será feito na Sprint atual
+
+3. Incremento
+ 
+É a soma de tudo o que foi concluído ao final da Sprint.
+ 
+O incremento representa uma nova evolução real do produto, pronta ou próxima de ser entregue.
+ 
+6. Papéis no Scrum
+
+Product Owner
+ 
+É o responsável por maximizar o valor do produto.
+ 
+Principais responsabilidades:
+ 
+entender as necessidades do cliente e do negócio
+
+priorizar o backlog
+
+manter o Product Backlog atualizado
+
+garantir que o time esteja trabalhando no que gera mais valor
+ 
+Ele pensa no que é mais importante para:
+ 
+usuários
+
+clientes
+
+empresa
+
+Scrum Master
+ 
+É o facilitador do Scrum.
+ 
+Principais responsabilidades:
+ 
+orientar o time no uso correto do framework
+
+remover impedimentos
+
+ajudar o grupo a evoluir
+
+observar o que está funcionando e o que precisa mudar
+
+fomentar colaboração e melhoria contínua
+ 
+Ele não é chefe do time.
+
+Seu papel é mais de mentor e facilitador.
+ 
+Time de Desenvolvimento
+ 
+É o grupo responsável por construir o produto.
+ 
+Características do time:
+ 
+autogerenciável
+
+independente
+
+multidisciplinar
+
+com autoridade para tomar decisões técnicas
+
+responsável pelos resultados
+ 
+Isso significa que o próprio time organiza a execução do trabalho e assume responsabilidade pela entrega.
+ 
+7. Eventos do Scrum
+ 
+Os eventos existem para trazer ritmo, organização e inspeção contínua ao projeto.
+ 
+1. Sprint
+ 
+É o ciclo de trabalho do Scrum.
+ 
+Durante a Sprint, o time desenvolve um conjunto de itens priorizados para gerar um incremento do produto.
+ 
+É um período curto e fixo.
+ 
+2. Sprint Planning
+ 
+É a reunião de planejamento da Sprint.
+ 
+Objetivo:
+ 
+definir o que será feito na Sprint
+
+alinhar prioridades
+
+montar o Sprint Backlog
+ 
+Perguntas comuns dessa reunião:
+ 
+o que vamos entregar?
+
+como vamos realizar esse trabalho?
+
+3. Daily Scrum
+ 
+É a reunião diária do time.
+ 
+Serve para acompanhar o andamento do trabalho e alinhar as próximas ações.
+ 
+Objetivo:
+ 
+identificar progresso
+
+visualizar impedimentos
+
+ajustar o plano do dia
+ 
+Não é uma reunião para o gestor controlar pessoas.
+
+É uma reunião de alinhamento do próprio time.
+ 
+4. Sprint Review
+ 
+É a reunião de revisão da Sprint.
+ 
+Aqui o time apresenta o que foi desenvolvido e coleta feedback sobre o incremento do produto.
+ 
+Objetivo:
+ 
+validar o que foi entregue
+
+mostrar evolução
+
+ajustar o backlog com base no feedback
+
+5. Sprint Retrospective
+ 
+É a reunião de retrospectiva da Sprint.
+ 
+O foco não é o produto, mas sim o processo de trabalho.
+ 
+Objetivo:
+ 
+analisar o que funcionou
+
+identificar o que não funcionou
+
+propor melhorias para a próxima Sprint
+ 
