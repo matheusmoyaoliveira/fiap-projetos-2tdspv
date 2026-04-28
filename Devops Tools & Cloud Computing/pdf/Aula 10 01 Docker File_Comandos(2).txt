@@ -1,0 +1,409 @@
+
+-- Slide 6
+
+Arquivo:
+Dockerfile
+
+
+FROM ubuntu
+
+RUN apt-get -y update
+RUN apt-get -y install python3
+
+
+-- Slide 7
+
+https://hub.docker.com/_/scratch
+
+
+
+-- Slide 8
+
+docker build -t ubuntu_python .
+
+
+
+-- Slide 9
+
+docker image ls
+
+
+
+-- Slide 10
+
+docker container run --rm -it ubuntu_python /bin/bash
+
+
+-- Slide 11
+
+Incluir na última linha do Dockerfile:
+RUN touch arquivo-de-boas-vindas.txt
+
+docker build -t ubuntu_python .
+
+
+-- Slide 13
+
+docker container run --rm -it ubuntu_python /bin/bash
+
+
+------------------------------------------------------------------------
+Referência
+------------------------------------------------------------------------
+
+
+-- Slide 15
+
+FROM ubuntu:18.04
+RUN apt-get update -y
+RUN apt-get install npm -y
+ADD Dockerfile /root/arquivo-host-transferido.txt
+
+
+docker build -t teste .
+
+
+docker container run --name testeadd -it teste /bin/bash
+
+npm -v
+
+exit
+
+
+-- Slide 16
+
+FROM ubuntu
+
+EXPOSE 80/tcp
+EXPOSE 80/udp
+
+docker build -t teste .
+
+docker image inspect teste
+
+
+-- Slide 18
+
+docker run -d --name nginx-server -p 80:80 nginx
+
+localhost:80 ou ipVM:80
+
+docker container rm -f nginx-server
+
+
+-- Slide 19
+
+
+Crie o arquivo no seu Host, no Terminal execute:
+
+echo { "nome": "Robert Plant",  "banda": "Led Zeppelin" } > arquivo-host.json
+
+
+FROM ubuntu:18.04
+
+WORKDIR /app-java 
+
+COPY arquivo-host.json arquivo-host-transferido.json
+
+docker build -t teste .
+
+docker container run --name testeworkdir -it teste bash
+
+
+-- Slide 20
+
+FROM alpine
+CMD ["echo","Rodei na execução"]
+
+docker build -t testecmd .
+
+docker container run --rm testecmd
+
+
+-- Slide 21
+
+FROM alpine
+ENTRYPOINT ["top", "-b"]
+
+docker build -t ptoentrada .
+
+docker container run --rm ptoentrada
+
+docker container run --rm ptoentrada -n 3
+
+
+-- Slide 23
+
+ARG JAVA_VERSION=17
+FROM eclipse-temurin:${JAVA_VERSION}-jdk
+CMD ["java", "--version"]
+
+
+docker build -t myjava --build-arg JAVA_VERSION=18 .
+
+docker container run --rm myjava
+
+
+docker build -t myjava --build-arg JAVA_VERSION=21 .
+
+docker container run --rm myjava
+
+
+-- Slide 24
+
+FROM alpine
+
+ENV hey="Olá"
+ENV dir="/"
+
+# ENV também pode ser utilizado na construção
+ADD ./Dockerfile ${dir}
+
+CMD echo $hey
+
+
+docker build -t env-demo .
+
+docker container run --rm env-demo
+
+docker container run --rm -e hey="Salve" env-demo
+
+docker container run --rm -it env-demo sh
+
+-> Verifique o arquivo copiado
+
+
+-- Slide 25
+
+FROM node:alpine
+
+RUN adduser -h /home/appuser -s /bin/sh -D appuser
+
+USER appuser
+RUN whoami
+RUN touch /home/appuser/teste.txt
+
+USER node
+RUN whoami
+RUN touch /home/node/teste.txt
+
+#Executar mais de um comando com a instrução CMD
+CMD ls -l /home/appuser; ls -l /home/node
+#CMD ["sh", "-c", "ls -l /home/appuser ; ls -l /home/node"]
+
+
+docker build -t user-demo .
+
+docker container run --rm user-demo
+
+
+------------------------------------------------------------------------
+Referência
+------------------------------------------------------------------------
+
+
+-- Slide 27
+
+git clone https://github.com/profjoaomenk/mysql-dimdim.git
+
+cd mysql-dimdim
+
+touch Dockerfile.mysql
+
+nano Dockerfile.mysql
+
+
+-- Slide 28
+
+FROM mysql:8.0
+
+ENV MYSQL_ROOT_PASSWORD=senha-dimdim
+ENV MYSQL_DATABASE=db-dimdim
+ENV MYSQL_USER=user-dimdim
+ENV MYSQL_PASSWORD=senha-dimdim
+
+EXPOSE 3306
+
+COPY docker-entrypoint-initdb.d/init.sql /docker-entrypoint-initdb.d/init.sql
+
+docker build -f Dockerfile.mysql -t mysql-dimdim .
+
+docker volume create mysql-dimdim-data
+
+docker network create dimdim-network
+
+
+-- Slide 29
+
+docker run --name mysql-dimdim -d \
+  --network dimdim-network \
+  -p 3306:3306 \
+  -v mysql-dimdim-data:/var/lib/mysql \
+  mysql-dimdim
+
+
+docker logs -f mysql-dimdim
+
+docker exec -i mysql-dimdim mysql -uuser-dimdim -p'senha-dimdim' db-dimdim -e "SELECT * FROM transacoes;"
+
+-- Slide 30
+
+cd
+
+git clone https://github.com/profjoaomenk/transacoes-api.git
+
+cd transacoes-api
+
+touch Dockerfile.api
+
+nano Dockerfile.api
+
+
+-- Slide 31
+
+# Estágio 1: Build da aplicação com Maven e aproveitamento de cache
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+
+# Copie pom.xml e baixe dependências primeiro (cache eficiente)
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Agora copie o código (apenas se necessário para rebuild)
+COPY src ./src
+
+# Compile o projeto
+RUN mvn clean package -DskipTests
+
+# Estágio 2: Imagem enxuta para execução
+FROM eclipse-temurin:17-jre
+
+# Criar usuário não-root antes de copiar arquivos
+RUN addgroup --system appuser && adduser --system --ingroup appuser appuser
+WORKDIR /app
+
+# Copie só o jar final
+COPY --from=builder /app/target/*.jar app.jar
+RUN chown appuser:appuser app.jar
+
+USER appuser
+
+# Exponha porta da aplicação
+EXPOSE 8080
+
+# Variáveis de ambiente (para sobrescrever facilmente)
+ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql-dimdim:3306/db-dimdim \
+    SPRING_DATASOURCE_USERNAME=user-dimdim \
+    SPRING_DATASOURCE_PASSWORD=senha-dimdim
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+-- Slide 32
+
+docker build -f Dockerfile.api -t api-dimdim .
+
+docker run --name api-dimdim -d \
+  --network dimdim-network \
+  -p 8080:8080 \
+  api-dimdim
+
+docker logs -f api-dimdim
+
+
+-- Slide 33
+
+curl -X GET http://localhost:8080/api/transacoes
+
+curl -X POST http://localhost:8080/api/transacoes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado",
+    "valor": 150.75
+  }'
+
+curl -X PUT http://localhost:8080/api/transacoes/6 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado - ALTERADO",
+    "valor": 150.76,
+    "dataTransacao": "2024-06-18T00:00:00"
+  }'
+
+curl -X DELETE http://localhost:8080/api/transacoes/6
+
+
+-- Slide 34
+
+cd
+
+git clone https://github.com/profjoaomenk/ApiTransacoes.git
+
+
+-- Slide 36
+
+cd api-transacoes
+
+docker build -f docker/Dockerfile -t api-transacoes .
+
+docker run --name api-transacoes -d \
+  --network dimdim-network \
+  -p 5000:8080 \
+  api-transacoes
+
+docker logs -f api-transacoes
+
+
+-- Slide 37
+
+curl -X GET http://localhost:5000/api/transacoes
+curl -X GET http://localhost:5000/api/transacoes/1
+
+curl -X POST http://localhost:5000/api/transacoes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado(.NET)",
+    "valor": 150.75
+  }'
+
+docker exec -i mysql-dimdim mysql -uuser-dimdim -p'senha-dimdim' db-dimdim -e "SELECT * FROM transacoes;"
+
+
+curl -X PUT http://localhost:5000/api/transacoes/7 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": 7,
+    "descricao": "Compra no supermercado - ALTERADO",
+    "valor": 150.76,
+    "dataTransacao": "2024-06-18T00:00:00"
+  }'
+
+
+docker exec -i mysql-dimdim mysql -uuser-dimdim -p'senha-dimdim' db-dimdim -e "SELECT * FROM transacoes;"
+
+curl -X DELETE http://localhost:5000/api/transacoes/7
+
+docker exec -i mysql-dimdim mysql -uuser-dimdim -p'senha-dimdim' db-dimdim -e "SELECT * FROM transacoes;"
+
+
+-- Slide 43
+
+docker rm -f api-dimdim
+
+docker rm -f api-transacoes
+
+docker rm -f mysql-dimdim
+
+docker system prune -a -f --volumes
+
+
+cd
+
+rm -rf mysql-dimdim
+
+-- Esse comando deve ser executado com o SUDO, pois a pasta target foi criada pelo Container
+sudo rm -rf transacoes-api
+
+-- Esse comando deve ser executado com o SUDO, pois a pasta obj foi criada pelo Container
+sudo rm -rf ApiTransacoes
+
