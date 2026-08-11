@@ -1,0 +1,319 @@
+["southafricanorth","chilecentral","spaincentral","canadacentral","brazilsouth"]
+
+-- Slide 6
+
+git clone https://github.com/profjoaomenk/mysql-dimdim-2.git
+
+git clone https://github.com/profjoaomenk/transacoes-api-2.git
+
+git clone https://github.com/profjoaomenk/ApiTransacoes-2.git
+
+
+-- Slide 7
+
+cd mysql-dimdim-2
+docker build -f Dockerfile.mysql -t mysql-dimdim .
+
+cd ../transacoes-api-2
+docker build -f Dockerfile.api -t api-dimdim .
+
+cd ../ApiTransacoes-2
+docker build -f docker/Dockerfile -t api-transacoes .
+
+
+-- Slide 14
+
+az login
+
+
+-- Slide 15
+
+az account show
+
+
+-- Slide 16
+
+-- 
+-- ALTERE A LOCALIZAÇÃO CONFORME SUA POLITICA
+--
+az group create --name rg-money-hub --location eastus
+
+#Caso ocorra erro:
+#az account list -o table
+#az account set --subscription <“nome” ou id>
+
+
+-- Slide 17
+
+--
+-- ANTES DE EXECUTAR OS COMANDOS ABAIXO (SÃO VÁRIOS) ALTERE PARA SEU RM
+-- 
+-- ALTERE A LOCALIZAÇÃO CONFORME SUA POLITICA
+--
+
+
+az provider register --namespace Microsoft.ContainerRegistry
+
+
+az acr create \
+    --resource-group rg-money-hub \
+    --name moneyhubrm562822 \
+    --sku Standard \
+    --location eastus \
+    --public-network-enabled true \
+    --admin-enabled true
+
+-- Slide 18
+
+LOGIN_SERVER=$(az acr show --name moneyhubrm562822 \
+                           --resource-group rg-money-hub \
+                           --query loginServer --output tsv)
+echo ""
+echo "Login Server: $LOGIN_SERVER"
+echo ""
+
+
+ADMIN_USERNAME=$(az acr credential show --name moneyhubrm562822 \
+                                        --resource-group rg-money-hub \
+                                        --query username --output tsv) && \
+ADMIN_PASSWORD=$(az acr credential show --name moneyhubrm562822 \
+                                        --resource-group rg-money-hub \
+                                 --query passwords[0].value --output tsv) && \
+echo "Username: $ADMIN_USERNAME" && echo "Password: $ADMIN_PASSWORD"
+
+
+-- Slide 19
+
+az acr login --name moneyhubrm562822
+
+ou
+
+docker login moneyhubrm562822.azurecr.io \
+  -u $ADMIN_USERNAME \
+  -p $ADMIN_PASSWORD
+
+
+-- Slide 21
+
+docker image ls
+
+docker tag mysql-dimdim moneyhubrm562822.azurecr.io/mysql-dimdim:v1
+
+
+-- Slide 22
+
+docker push moneyhubrm562822.azurecr.io/mysql-dimdim:v1
+
+
+-- Slide 23
+
+docker tag api-dimdim moneyhubrm562822.azurecr.io/api-dimdim:v1
+docker push moneyhubrm562822.azurecr.io/api-dimdim:v1
+
+docker tag api-transacoes moneyhubrm562822.azurecr.io/api-transacoes:v1
+docker push moneyhubrm562822.azurecr.io/api-transacoes:v1
+
+
+-- Slide 24
+
+az acr repository list --name moneyhubrm562822 --output table
+
+
+-- Slide 25
+
+docker rmi moneyhubrm562822.azurecr.io/api-transacoes:v1
+docker rmi moneyhubrm562822.azurecr.io/api-dimdim:v1
+docker rmi moneyhubrm562822.azurecr.io/mysql-dimdim:v1
+
+
+
+-- Slide 27
+
+# Listar os repositórios
+az acr repository list --name moneyhubrm562822 --output table
+
+# Listar as tags (imagens) de um repositório
+az acr repository show-tags --name moneyhubrm562822 --repository mysql-dimdim
+
+# Mostrar manifesto
+az acr manifest list-metadata --registry moneyhubrm562822 --name api-dimdim
+
+# Limpar imagens antigas do ACR
+az acr purge --name nomeRepositorio --filter 'imagem:.*' --ago 7d –untagged
+
+# Detalhes de um repositório
+az acr repository show --name moneyhubrm562822 --repository mysql-dimdim
+
+# Habilitar usuário administrador
+az acr update --name <nome_do_registro> --admin-enabled true
+
+
+-- Slide 34
+
+--> ANTES DE EXECUTAR ALTERE O SCRIPT – SIGA ORIENTAÇÕES DO PROF
+
+chmod +x 01_store-account.sh
+
+./01_store-account.sh > 01_store-account.log
+
+
+
+-- Slide 35
+
+--> ANTES DE EXECUTAR ALTERE O SCRIPT – SIGA ORIENTAÇÕES DO PROF
+
+chmod +x 02_key-vault.sh
+./02_key-vault.sh > 02_key-vault.log
+
+
+
+-- Slide 36
+
+--> ANTES DE EXECUTAR ALTERE O SCRIPT – SIGA ORIENTAÇÕES DO PROF
+
+chmod +x 03_aci-mysql.sh
+./03_aci-mysql.sh > 03_aci-mysql.log
+
+
+-- Slide 37
+
+az container logs --resource-group rg-money-hub --name mysql-dimdim
+
+az container exec --resource-group rg-money-hub --name mysql-dimdim --exec-command "mysql -uuser-dimdim -psenha-dimdim"
+
+use db-dimdim;
+
+select * from transacoes;
+
+
+
+-- Slide 39
+
+--> ANTES DE EXECUTAR ALTERE O SCRIPT – SIGA ORIENTAÇÕES DO PROF
+
+chmod +x 04_aci-api-java.sh
+./04_aci-api-java.sh > 04_aci-api-java.log
+
+
+-- Slide 40
+
+az container logs --resource-group rg-money-hub --name api-java
+
+az container exec --resource-group rg-money-hub --name api-java --exec-command "/bin/bash"
+
+cat /etc/os-release
+
+curl -X GET http://localhost:8080/api/transacoes
+
+az container logs --resource-group rg-money-hub --name api-java
+
+
+-- Slide 41
+
+--> ANTES DE EXECUTAR ALTERE O SCRIPT – SIGA ORIENTAÇÕES DO PROF
+
+chmod +x 05_aci-api-dotnet.sh
+./05_aci-api-dotnet.sh > 05_aci-api-dotnet.log
+
+
+
+-- Slide 42
+
+az container logs --resource-group rg-money-hub --name api-dotnet
+
+az container exec --resource-group rg-money-hub --name api-dotnet --exec-command "/bin/bash"
+
+cat /etc/os-release
+
+exit
+
+-- >Execute no terminal de sua máquina
+
+fqdndotnet=$(az container show --resource-group rg-money-hub --name api-dotnet --query ipAddress.fqdn --output tsv)
+
+curl -X GET http://$fqdndotnet:8080/api/transacoes
+
+az container logs --resource-group rg-money-hub --name api-dotnet
+
+
+-- Slide 43
+
+az container exec --resource-group rg-money-hub --name api-java --exec-command "/bin/bash"
+
+curl -X POST http://localhost:8080/api/transacoes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado",
+    "valor": 150.75
+  }'
+
+
+--> Execute no terminal de sua máquina
+
+curl -X PUT http://$fqdndotnet:8080/api/transacoes/6 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": 6,
+    "descricao": "Compra no supermercado - ALTERADO",
+
+    "valor": 150.76,
+    "dataTransacao": "2024-06-18T00:00:00"
+  }'
+
+
+
+-- Slide 44
+
+az container exec --resource-group rg-money-hub --name api-java --exec-command "/bin/bash"
+
+curl -X DELETE http://localhost:8080/api/transacoes/6
+
+
+--> Execute no terminal de sua máquina
+
+curl -X GET http://$fqdndotnet:8080/api/transacoes
+
+
+
+-- Slide 45
+
+# Visualizar logs do container
+az container logs --resource-group rg-money-hub --name api-java
+
+# Logs com follow (streaming)
+az container logs --resource-group rg-money-hub \
+  --name api-java \
+  --follow
+
+# Executar comando interativo
+az container exec --resource-group rg-money-hub \
+  --name api-java \
+  --exec-command "/bin/bash"
+
+# Executar comando específico
+az container exec --resource-group rg-money-hub \
+  --name api-java \
+  --exec-command "ls -la"
+
+# Verificar processos
+az container exec --resource-group rg-money-hub \
+  --name api-java \
+  --exec-command "ps aux"
+
+# Deletar containers específicos
+az container delete --resource-group rg-dimdim-containers --name aci-dimdim-api --yes
+
+
+---
+--> COMANDOS QUE PODEM AJUDAR
+-- -
+
+# Informações sobre sua conta
+az account show
+
+# Para listar os Key Vaults deletados (soft-deleted):
+az keyvault list-deleted --subscription {ID_DA_SUBSCRICAO} --resource-type vault -o table
+
+# Para purgar (deletar permanentemente) - DEMORA...
+az keyvault purge --subscription {ID_DA_SUBSCRICAO} -n {NOME_DO_VAULT}
+
