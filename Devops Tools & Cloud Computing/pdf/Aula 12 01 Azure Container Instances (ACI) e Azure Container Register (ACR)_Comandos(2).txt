@@ -36,7 +36,7 @@ az account show
 -- 
 -- ALTERE A LOCALIZAÇÃO CONFORME SUA POLITICA
 --
-az group create --name rg-money-hub --location eastus
+az group create --name rg-money-hub --location canadacentral
 
 #Caso ocorra erro:
 #az account list -o table
