@@ -59,11 +59,16 @@ az acr create \
     --resource-group rg-money-hub \
     --name moneyhubrm562822 \
     --sku Standard \
-    --location eastus \
+    --location canadacentral \
     --public-network-enabled true \
     --admin-enabled true
 
 -- Slide 18
+
+moneyhubrm562822.azurecr.io
+
+Username: moneyhubrm562822
+Password: ORByi3dnn9AqME3eGbX7ZeddktYbMC4gmTkg1ocXrTsEKEDxBXK8JQQJ99CHACBsN54Eqg7NAAACAZCRQHwI
 
 LOGIN_SERVER=$(az acr show --name moneyhubrm562822 \
                            --resource-group rg-money-hub \
