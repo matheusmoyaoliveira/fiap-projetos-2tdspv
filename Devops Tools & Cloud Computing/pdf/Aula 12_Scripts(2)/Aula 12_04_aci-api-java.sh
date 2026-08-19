@@ -1,6 +1,7 @@
 # Variáveis
 # ALTERE PARA SEU RM
-rm=rm9999
+rm=rm562822
+location="canadacentral"
 resourceGroup="rg-money-hub"
 acrName="moneyhub$rm"
 aciName="api-java"
@@ -18,6 +19,7 @@ az container create \
   --resource-group $resourceGroup \
   --name $aciName \
   --image $acrName.azurecr.io/$imageName:$tag \
+  --location $location \
   --cpu 1 \
   --memory 1 \
   --os-type Linux \
