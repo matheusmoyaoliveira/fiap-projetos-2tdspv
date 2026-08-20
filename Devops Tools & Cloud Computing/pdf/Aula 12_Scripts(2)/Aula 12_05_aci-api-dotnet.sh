@@ -1,7 +1,7 @@
 # Variáveis
 # ALTERE PARA SEU RM
-rm=rm9999
-resourceGroup="rg-money-hub"
+rm=rm562822
+resourceGroup="rg-money-hub-rm562822"
 acrName="moneyhub$rm"
 aciName="api-dotnet"
 aciNameMysql="mysql-dimdim"

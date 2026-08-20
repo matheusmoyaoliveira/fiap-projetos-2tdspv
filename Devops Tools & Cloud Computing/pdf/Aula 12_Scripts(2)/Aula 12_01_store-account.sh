@@ -1,12 +1,12 @@
 # Variáveis
 # ALTERE PARA SEU RM
-rm=rm9999
+rm=rm562822
 #
 storageAccountName="volumedimdimdata$rm" 
 #
 file_share_name="mysql-dimdim-volume"
-resourceGroup="rg-money-hub"
-location="eastus"
+resourceGroup="rg-money-hub-rm562822"
+location="canadacentral"
 
 # Valida se o Grupo de Recursos existe e cria caso não exista
 if ! az group show --name "$resourceGroup" &>/dev/null; then

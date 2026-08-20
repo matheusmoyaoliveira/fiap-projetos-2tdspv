@@ -1,8 +1,8 @@
 # Variaveis
 # ALTERE PARA SEU RM
-rm=rm9999
-resourceGroup="rg-money-hub"
-location="eastus"
+rm=rm562822
+resourceGroup="rg-money-hub-rm562822"
+location="canadacentral"
 MYSQL_ROOT_PASSWORD=senha-dimdim
 MYSQL_DATABASE=db-dimdim
 MYSQL_USER=user-dimdim

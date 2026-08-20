@@ -1,7 +1,7 @@
 # Variáveis
 
-rm="rm9999"
-RESOURCE_GROUP="rg-money-hub"
+rm="rm562822"
+RESOURCE_GROUP="rg-money-hub-rm562822"
 LOCATION="eastus"
 STORAGE_ACCOUNT="volumecompose$rm"
 FILE_SHARE=mysql-dimdim-volume-compose

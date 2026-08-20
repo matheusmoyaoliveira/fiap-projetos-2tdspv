@@ -2,7 +2,7 @@
 # ALTERE PARA SEU RM
 rm=rm562822
 location="canadacentral"
-resourceGroup="rg-money-hub"
+resourceGroup="rg-money-hub-rm562822"
 acrName="moneyhub$rm"
 aciName="mysql-dimdim"
 imageName="mysql-dimdim"
