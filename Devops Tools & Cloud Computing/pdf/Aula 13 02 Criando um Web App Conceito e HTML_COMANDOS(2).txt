@@ -1,0 +1,137 @@
+
+--------------------------------------------
+--
+-- ALTERE O RM e a LOCALIZAÇAO dos Recursos
+--
+-- rm9999 para seu RM
+--
+-- brazilsouth para seu Datacenter
+--
+--------------------------------------------
+
+
+-- Slide 9
+
+git clone https://github.com/profjoaomenk/one-page.git
+
+az provider register --namespace Microsoft.Web
+
+cd one-page
+
+
+
+-- Slide 10
+
+az webapp up \
+  --resource-group rg-sites \
+  --location brazilsouth \
+  --plan planSites \
+  --name hello-rm9999 \
+  --html \
+  --sku F1 \
+  --logs
+
+
+
+-- Slide 16
+
+pwd
+
+ls -l
+
+java -version
+node --version
+npm --version
+dotnet --version
+python --version
+git --version
+
+
+-- Slide 22
+
+
+--
+-- Entre em seu Diretório HOME
+--
+
+cd
+
+git clone https://github.com/profjoaomenk/static-web-page-terrarium.git
+
+cd static-web-page-terrarium
+
+
+-- Slide 23
+
+az webapp up \
+  --resource-group rg-sites \
+  --location brazilsouth \
+  --plan planSites \
+  --name hello-rm9999 \
+  --html \
+  --sku F1 \
+  --logs
+
+
+-- Slide 26
+
+rm -rf assets
+
+rm -rf images
+
+rm -f index.html index.js index2.html LICENSE README.md screenshot_gray.png script.js style.css
+
+
+-- Slide 29
+
+--
+-- DELETE O .WAR ANTIGO pelo Kudo Service
+--
+
+--
+-- 1) Delete o .war atual pelo Kudo Service, 
+-- 2) entre em seu diretório HOME e suba o arquivo .WAR para a Cloud Shell
+--
+
+cd
+
+
+az webapp deploy \
+  --resource-group rg-sites \
+  --name hello-rm9999 \
+  --src-path ./roshambo.war \
+  --type war
+
+
+-- Slide 32
+
+
+git clone https://github.com/profjoaomenk/spring-jar-petclinic.git
+
+
+01) Entre na pasta do Projeto
+cd spring-jar-petclinic
+
+02) Compile seu Projeto
+mvn clean package
+
+03) Entre na pasta target
+cd target
+
+
+-- Slide 34
+
+-- Dentro da pasta Target do Projeto, suba o arquivo .JAR para o Serviço de Aplicativo
+
+az webapp deploy \
+  --resource-group rg-sites \
+  --name hello-rm9999 \
+  --src-path ./spring-petclinic-3.3.0-SNAPSHOT.jar \
+  --type jar
+
+
+-- Slide 38
+
+az group delete --name rg-sites --yes --no-wait
+
+
