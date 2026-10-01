@@ -1,0 +1,115 @@
+
+
+-- Slide 04
+
+git clone https://github.com/profjoaomenk/MoneyHub.git
+
+chmod +x 06_store-account-compose.sh
+
+./06_store-account-compose.sh > 06_store-account-compose.log
+
+
+-- Entre o diretorio do Projeto e crie o arquivo
+
+touch .envcompose
+
+
+-- Slide 05
+
+# ALTERE PARA SEU RM
+rm=rm9999
+
+RESOURCE_GROUP="rg-money-hub"
+
+# ALTERE PARA SUA LOCALIZAÇÃO
+LOCATION="eastus"
+
+STORAGE_ACCOUNT="volumecompose$rm"
+FILE_SHARE=mysql-dimdim-volume-compose
+STORAGE_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --account-name $STORAGE_ACCOUNT --query "[0].value" -o tsv)
+
+MYSQL_ROOT_PASSWORD=senha-dimdim
+MYSQL_DATABASE=db-dimdim
+MYSQL_USER=user-dimdim
+MYSQL_PASSWORD=senha-dimdim
+
+SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/db-dimdim
+SPRING_DATASOURCE_USERNAME=user-dimdim
+SPRING_DATASOURCE_PASSWORD=senha-dimdim
+
+CONNECTIONSTRINGS="Server=localhost;Database=db-dimdim;User=user-dimdim;Password=senha-dimdim;"
+
+ACR_SERVER="moneyhub$rm.azurecr.io"
+ACR_USERNAME=$(az acr credential show --name moneyhub$rm --resource-group $RESOURCE_GROUP --query username --output tsv)
+ACR_PASSWORD=$(az acr credential show --name moneyhub$rm --resource-group $RESOURCE_GROUP --query passwords[0].value --output tsv)
+
+
+--
+--> Execute no Terminal para carregar as variáveis de ambiente antes de executar o próximo Script
+--
+
+set -a
+source .envcompose
+set +a
+
+
+
+-- Slide 06
+
+az container create --resource-group $RESOURCE_GROUP --file aci-deploy.yaml
+
+
+az container logs --resource-group $RESOURCE_GROUP --name money-hub-compose --container-name mysql-dimdim
+
+az container logs --resource-group $RESOURCE_GROUP --name money-hub-compose --container-name api-dimdim
+
+az container logs --resource-group $RESOURCE_GROUP --name money-hub-compose --container-name api-transacoes-dotnet
+
+
+az container attach --resource-group $RESOURCE_GROUP --name money-hub-compose --container-name api-dimdim
+
+
+publicIP=$(az container show --resource-group $RESOURCE_GROUP --name money-hub-compose --query ipAddress.ip --output tsv)
+
+
+
+-- Slide 07
+
+
+curl -X GET http://$publicIP:8080/api/transacoes
+
+curl -X POST http://$publicIP:8080/api/transacoes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descricao": "Compra no supermercado",
+    "valor": 150.75
+  }'
+
+curl -X PUT http://$publicIP:5000/api/transacoes/6 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": 6,
+    "descricao": "Compra no supermercado - ALTERADO",
+    "valor": 150.76,
+    "dataTransacao": "2024-06-18T00:00:00"
+  }'
+
+
+
+-- Slide 08
+
+curl -X GET http://$publicIP:5000/api/transacoes
+
+curl -X DELETE http://$publicIP:8080/api/transacoes/6
+
+curl -X GET http://$publicIP:8080/api/transacoes
+
+curl -X GET http://$publicIP:5000/api/transacoes
+
+
+
+-- Slide 09
+
+az group delete --name rg-money-hub --yes --no-wait
+
+

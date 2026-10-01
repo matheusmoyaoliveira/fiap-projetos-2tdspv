@@ -1,0 +1,198 @@
+
+
+
+-- Slide 5
+
+az provider register --namespace Microsoft.Web
+
+az provider register --namespace Microsoft.Insights
+az provider register --namespace Microsoft.OperationalInsights
+
+az provider register --namespace Microsoft.ServiceLinker
+
+az extension add --name application-insights
+
+
+
+-- Slide 6
+
+Repositório para Fork:
+
+https://github.com/profjoaomenk/playmix-mvc.git
+
+
+
+-- Slide 7
+
+
+ATENÇÃO: Utilizem Regiões diferentes, espalhem a criação do App:
+
+brazilsouth
+eastus
+eastus2
+westus
+westus2
+
+
+==> Altere para seu RM
+==> Altere para seu Repositório
+
+
+# Variáveis
+RESOURCE_GROUP_NAME="rg-playmix-mvc"
+WEBAPP_NAME="playmix-mvc-rm9999"
+APP_SERVICE_PLAN="playmix-mvc"
+LOCATION="brazilsouth"
+RUNTIME="JAVA:17-java17"
+GITHUB_REPO_NAME="profjoaomenk/playmix-mvc"
+BRANCH="main"
+APP_INSIGHTS_NAME="ai-playmix-mvc"
+
+
+# Criação do Grupo de Recursos
+az group create \
+  --name $RESOURCE_GROUP_NAME \
+  --location "$LOCATION"
+
+
+
+-- Slide 8
+
+# Criar Application Insights
+az monitor app-insights component create \
+  --app $APP_INSIGHTS_NAME \
+  --location "$LOCATION" \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --application-type web
+
+
+
+# Criar o Plano de Serviço
+az appservice plan create \
+  --name $APP_SERVICE_PLAN \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --location "$LOCATION" \
+  --sku F1 \
+  --is-linux
+
+
+
+
+-- Slide 9
+
+
+# Criar o Serviço de Aplicativo
+az webapp create \
+  --name $WEBAPP_NAME \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --plan $APP_SERVICE_PLAN \
+  --runtime "$RUNTIME"
+
+
+
+az webapp list-runtimes
+
+
+
+# Habilita a autenticação Básica (SCM)
+az resource update \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --namespace Microsoft.Web \
+  --resource-type basicPublishingCredentialsPolicies \
+  --name scm \
+  --parent sites/$WEBAPP_NAME \
+  --set properties.allow=true
+
+
+
+-- Slide 10
+
+
+# Recuperar a String de Conexão do Application Insights (assim podemos nos conectar a esse App Insights)
+CONNECTION_STRING=$(az monitor app-insights component show \
+  --app $APP_INSIGHTS_NAME \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --query connectionString \
+  --output tsv)
+
+
+
+==> Altere para seu RM e sua Senha do Banco Oracle
+
+# Configurar as Variáveis de Ambiente necessárias do nosso App e do Application Insights
+az webapp config appsettings set \
+  --name "$WEBAPP_NAME" \
+  --resource-group "$RESOURCE_GROUP_NAME" \
+  --settings \
+    APPLICATIONINSIGHTS_CONNECTION_STRING="$CONNECTION_STRING" \
+    ApplicationInsightsAgent_EXTENSION_VERSION="~3" \
+    XDT_MicrosoftApplicationInsights_Mode="Recommended" \
+    XDT_MicrosoftApplicationInsights_PreemptSdk="1" \
+    SPRING_DATASOURCE_USERNAME="rm9999" \
+    SPRING_DATASOURCE_PASSWORD="xxxxxxx" \
+    SPRING_DATASOURCE_URL="jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL"
+
+
+# Reiniciar o Web App
+az webapp restart --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP_NAME
+
+
+# Criar a conexão do nosso Web App com o Application Insights
+az monitor app-insights component connect-webapp \
+    --app $APP_INSIGHTS_NAME \
+    --web-app $WEBAPP_NAME \
+    --resource-group $RESOURCE_GROUP_NAME
+
+
+
+-- Slide 14
+
+
+# Configurar GitHub Actions para Build e Deploy automático
+az webapp deployment github-actions add \
+  --name $WEBAPP_NAME \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --repo $GITHUB_REPO_NAME \
+  --branch $BRANCH \
+  --login-with-github
+
+
+
+
+-- Slide 16
+
+
+SPRING_DATASOURCE_URL="jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL"
+SPRING_DATASOURCE_USERNAME=seu-usuario
+SPRING_DATASOURCE_PASSWORD=sua-senha
+
+
+-- Slide 17
+
+
+      env: 
+        SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+        SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+
+
+
+-- Slide 21
+
+Adicione ao final do comando
+
+-DskipTests
+
+
+
+-- Slide 26
+
+
+DROP TABLE music CASCADE CONSTRAINTS;
+DROP TABLE playlist CASCADE CONSTRAINTS;
+DROP TABLE playlist_music CASCADE CONSTRAINTS;
+
+
+az group delete --name rg-playmix-mvc --yes --no-wait
+
+
