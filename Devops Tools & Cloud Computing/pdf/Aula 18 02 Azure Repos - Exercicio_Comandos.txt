@@ -1,0 +1,84 @@
+
+-- Slide 5
+
+https://github.com/profjoaomenk/dimdim_score.git
+
+
+
+-- Slide 11
+
+Adicionar cálculo para clientes VIP
+
+Implementar o cálculo para os clientes VIP terem benefícios de mais 100 pontos
+
+
+
+-- Slide 13
+
+clientes-vip
+
+
+
+-- Slide 14
+
+
+def calcula_pontuacao(cliente):
+    """
+    Calcula a pontuação básica de um cliente
+    
+    Args:
+        cliente (dict): Dicionário com dados do cliente
+            - nome (str): Nome do cliente
+            - transacoes (int): Número de transações mensais
+    
+    Returns:
+        int: Pontuação calculada (transações * 10)
+    """
+    #return cliente['transacoes'] * 10
+
+    pontos = cliente['transacoes'] * 10
+    
+    # Bônus para clientes VIP
+    if cliente.get('vip', False):
+        pontos += 100  # Bônus de 100 pontos
+    
+    return pontos
+
+
+-- Slide 15
+
+
+feat: adiciona cálculo especial para clientes VIP
+
+
+
+-- Slide 22
+
+
+## Funcionalidades
+
+### Cálculo de Pontuação
+- **Clientes Regulares:** 10 pontos por transação
+- **Clientes VIP:** 10 pontos por transação + **100 pontos de bônus**
+
+### Como usar
+
+cliente_regular = {'nome': 'Ana', 'transacoes': 5, 'vip': False}
+cliente_vip = {'nome': 'Bruno', 'transacoes': 5, 'vip': True}
+
+print(calcula_pontuacao(cliente_regular)) # 50 pontos
+print(calcula_pontuacao(cliente_vip)) # 150 pontos
+
+
+
+-- Slide 23
+
+
+docs: atualizar documentação para clientes VIP
+
+
+-- Slide 24
+
+Documentação atualizada
+
+

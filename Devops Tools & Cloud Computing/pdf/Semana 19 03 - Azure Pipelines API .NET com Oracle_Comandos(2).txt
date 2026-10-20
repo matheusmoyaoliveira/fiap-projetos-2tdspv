@@ -1,0 +1,306 @@
+
+-- Slide 4
+
+Pricewhisper
+
+Projeto para otimizar a precificação de produtos no setor varejista, utilizando análise de dados e machine learning para fornecer insights estratégicos
+
+
+-- Slide 05
+
+https://github.com/profjoaomenk/pricewhisper-api-dotnet-oracle.git
+
+
+-- Slide 09
+
+MyAzureSubscription
+Credenciais para minha assinatura da Azure
+
+
+-- Slide 16
+
+Pricewhisper-CI
+
+
+-- Slide 17
+
+Build and Test
+
+
+-- Slide 20
+
+Testes de CRUD
+
+
+-- Slide 22
+
+app
+
+
+-- Slide 25
+
+Criar infra inicial
+
+
+-- Slide 27
+
+Banco e Azure
+
+$(ORACLE_HOST) $(ORACLE_PORT) $(ORACLE_SID) $(ORACLE_USER) $(ORACLE_PASS)
+
+
+
+-- Slide 29
+
+--
+--> Altere para seu RM
+--
+NOME_WEBAPP
+api-dotnet-rm9999
+
+ORACLE_HOST
+oracle.fiap.com.br
+
+--
+--> Altere para sua Senha
+--
+ORACLE_PASS
+suaSenha
+
+ORACLE_PORT
+1521
+
+ORACLE_SID
+ORCL
+
+--
+--> Altere para seu RM
+--
+ORACLE_USER
+rm9999
+
+--
+--> Altere conforme sua Política
+--
+LOCATION
+brazilsouth
+
+
+
+-- Slide 31
+
+Criação do CI
+
+
+-- Slide 34
+
+Deploy em Dev
+
+
+-- Slide 36
+
+Deploy no Serviço de Aplicativo
+
+
+-- Slide 37
+
+Deploy no Serviço de Aplicativo
+
+
+-- Slide 38
+
+-ASPNETCORE_ENVIRONMENT $(ASPNETCORE_ENVIRONMENT) -ConnectionStrings__OracleConnection "$(OracleConnection)"
+
+
+
+-- Slide 39
+
+
+ASPNETCORE_ENVIRONMENT
+Development
+
+--
+--> Altere para seu usuário e senha
+--
+
+OracleConnection
+Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.fiap.com.br)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SID=ORCL)));User Id=rm9999;Password=Senha;
+
+
+-- Slide 46
+
+https://api-dotnet-rm9999.azurewebsites.net/swagger/index.html
+
+
+select * from "Usuarios";
+select * from "Empresas";
+
+
+/api/Empresa:
+
+GET /api/Empresa
+
+GET /api/Empresa/{id}
+
+POST /api/Empresa
+
+{
+  "cnpj": "47960950000121",
+  "razaoSocial": "Magazine Luiza S/A",
+  "nomeFantasia": "Magazine Luiza",
+  "usuarios": []
+}
+
+
+PUT /api/Empresa
+
+https://api-dotnet-rm9999.azurewebsites.net/api/Empresa/1
+
+{
+  "empresaId": 1,
+  "cnpj": "47960950000121",
+  "razaoSocial": "Magazine Luiza S/A",
+  "nomeFantasia": "Magalu",
+  "usuarios": []
+}
+
+
+DELETE /api/Empresa/{id}
+
+
+
+
+/api/Usuario:
+
+GET /api/Usuario
+
+GET /api/Usuario/{id}
+
+POST /api/Usuario
+
+{
+  "nome": "João Silva",
+  "nomeUsuario": "joaosilva",
+  "senha": "senha123",
+  "empresaId": 1
+}
+
+
+PUT /api/Usuario
+
+{
+  "usuarioId": 1,
+  "nome": "João Silva Santos",
+  "nomeUsuario": "joao.silva",
+  "senha": "NovaSenha@123",
+  "empresaId": 1
+}
+
+DELETE /api/Usuario/{id}
+
+
+
+-- Slide 47
+
+// Rota incluída - API somente GET em /wellcome
+app.MapGet("/wellcome", () => Results.Text("Rota adicionada"))
+   .WithName("Wellcome")
+   .WithTags("Health")
+   .Produces<string>(StatusCodes.Status200OK);
+
+
+-- Slide 49
+
+https://api-dotnet-rm9999.azurewebsites.net/wellcome
+
+OU
+
+https://api-dotnet-rm9999.azurewebsites.net/swagger/index.html
+
+
+
+
+-- Slide 50
+
+Pricewhisper - YAML
+
+Projeto para otimizar a precificação de produtos no setor varejista, utilizando análise de dados e machine learning para fornecer insights estratégicos
+
+
+
+-- Slide 51
+
+https://github.com/profjoaomenk/pricewhisper-api-dotnet-oracle.git
+
+
+-- Slide 53
+
+MyAzureSubscription
+Credenciais para minha assinatura da Azure
+
+
+
+-- Slide 60
+
+--
+--> Altere para seu RM
+--
+NOME_WEBAPP
+api-dotnet-rm9999
+
+ORACLE_HOST
+oracle.fiap.com.br
+
+--
+--> Altere para sua Senha
+--
+ORACLE_PASS
+suaSenha
+
+ORACLE_PORT
+1521
+
+ORACLE_SID
+ORCL
+
+--
+--> Altere para seu RM
+--
+ORACLE_USER
+rm9999
+
+--
+--> Altere conforme sua Política
+--
+LOCATION
+brazilsouth
+
+
+ASPNETCORE_ENVIRONMENT
+Development
+
+--
+--> Altere para seu usuário e senha
+--
+OracleConnection
+Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.fiap.com.br)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SID=ORCL)));User Id=rm9999;Password=Senha;
+
+
+
+-- Slide 62
+
+Criação da Pipeline YAML
+
+
+-- Slide 65
+
+https://api-dotnet-rm9999.azurewebsites.net/swagger/index.html
+
+
+-- Slide 66
+
+
+drop table "Usuarios";
+drop table "Empresas";
+
+

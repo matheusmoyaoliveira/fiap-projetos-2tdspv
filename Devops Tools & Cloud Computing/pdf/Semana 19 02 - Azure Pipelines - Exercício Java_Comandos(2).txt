@@ -1,0 +1,141 @@
+
+-- Slide 05
+
+chmod +x Semana_19_02_criar-infra.sh
+
+./Semana_19_02_criar-infra.sh
+
+
+
+-- Slide 09
+
+PlayMix
+
+Projeto para implantar o App Playmix no Azure Devops
+
+
+
+-- Slide 10
+
+https://github.com/profjoaomenk/playmix-mvc.git
+
+
+-- Slide 11
+
+Implantar o App PlayMix no Azure Devops
+
+
+-- Slide 12
+
+azure-devops
+
+
+-- Slide 29
+
+SPRING_DATASOURCE_PASSWORD
+xxxxxxx
+
+SPRING_DATASOURCE_URL
+jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL
+
+SPRING_DATASOURCE_USERNAME
+rm9999
+
+
+
+-- Slide 35
+
+Criação do Primeiro CI
+
+
+
+-- Slide 43
+
+Habilitando o CI
+
+
+-- Slide 47
+
+PlayMix - Pipeline
+
+Desenvolvimento
+
+
+-- Slide 60
+
+
+-SPRING_DATASOURCE_USERNAME "$(SPRING_DATASOURCE_USERNAME)" -SPRING_DATASOURCE_PASSWORD "$(SPRING_DATASOURCE_PASSWORD)" -SPRING_DATASOURCE_URL "$(SPRING_DATASOURCE_URL)"
+
+
+-- Slide 61
+
+SPRING_DATASOURCE_PASSWORD
+xxxxxxx
+
+SPRING_DATASOURCE_URL
+jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL
+
+SPRING_DATASOURCE_USERNAME
+rm9999
+
+
+-- Slide 65
+
+Teste de CD
+
+
+-- Slide 67
+
+Deploy em Desenvolvimento
+
+
+-- Slide 76
+
+feat: Alterado o Título do App
+
+
+-- Slide 84
+
+PlayMix - YAML
+
+Projeto para Implantar o App Playmix no Azure Devops com YAML
+
+
+-- Slide 85
+
+https://github.com/profjoaomenk/playmix-mvc.git
+
+
+-- Slide 87
+
+rg-playmix-mvc
+
+MyAzureSubscription
+
+Credenciais para minha assinatura da Azure
+
+
+-- Slide 95
+
+SPRING_DATASOURCE_PASSWORD
+xxxxxxx
+
+SPRING_DATASOURCE_URL
+jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL
+
+SPRING_DATASOURCE_USERNAME
+rm9999
+
+
+-- Slide 97
+
+Criação da Pipeline YAML
+
+
+-- Slide 102
+
+DROP TABLE music CASCADE CONSTRAINTS;
+DROP TABLE playlist CASCADE CONSTRAINTS;
+DROP TABLE playlist_music CASCADE CONSTRAINTS;
+
+

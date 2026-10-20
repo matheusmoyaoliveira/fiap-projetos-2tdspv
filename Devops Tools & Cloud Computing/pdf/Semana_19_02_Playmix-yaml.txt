@@ -1,0 +1,102 @@
+trigger:
+  branches:
+    include:
+      - Main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  JAVA_VERSION: '17'
+  WEB_APP_NAME: 'playmix-mvc-pf0841x'
+  ARTIFACT_NAME: 'app'
+
+stages:
+  - stage: CI
+    displayName: 'CI - Build e Testes'
+    jobs:
+      - job: Build
+        displayName: 'Instalar e Configurar Java'
+        steps:
+          - task: JavaToolInstaller@0
+            displayName: 'Configurar Java 17'
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
+
+          - task: Maven@4
+            displayName: 'Maven - Compilar e executar testes'
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'clean package'
+              options: ''
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              testRunTitle: 'Testes de Código'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: '1.17'
+              mavenVersionOption: 'Default'
+
+          - task: CopyFiles@2
+            displayName: 'Preparar artefato JAR'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: '**/target/*.jar'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_NAME)'
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publicar artefato app'
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_NAME)'
+              artifact: '$(ARTIFACT_NAME)'
+              publishLocation: 'pipeline'
+
+  - stage: CD
+    displayName: 'CD - Deploy no Azure Web App'
+    dependsOn: CI
+    condition: succeeded()
+    jobs:
+      - deployment: Deploy
+        displayName: 'Deploy Spring Boot'
+        environment: 'playmix-mvc-pf0841x'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: 'app'
+
+                - task: AzureAppServiceSettings@1
+                  displayName: 'Configurar variáveis de ambiente do Web App'
+                  inputs:
+                    azureSubscription: 'MyAzureSubscription'
+                    appName: '$(WEB_APP_NAME)'
+                    appSettings: |
+                      [
+                        {
+                          "name": "SPRING_DATASOURCE_USERNAME",
+                          "value": "$(SPRING_DATASOURCE_USERNAME)",
+                          "slotSetting": false
+                        },
+                        {
+                          "name": "SPRING_DATASOURCE_PASSWORD",
+                          "value": "$(SPRING_DATASOURCE_PASSWORD)",
+                          "slotSetting": false
+                        },
+                        {
+                          "name": "SPRING_DATASOURCE_URL",
+                          "value": "$(SPRING_DATASOURCE_URL)",
+                          "slotSetting": false
+                        }
+                      ]
+
+                - task: AzureWebApp@1
+                  displayName: 'Deploy via Zip Deploy'
+                  inputs:
+                    azureSubscription: 'MyAzureSubscription'
+                    appType: 'webAppLinux'
+                    appName: '$(WEB_APP_NAME)'
+                    package: '$(Pipeline.Workspace)/app/**/*.jar'
+                    deploymentMethod: 'zipDeploy'
+
